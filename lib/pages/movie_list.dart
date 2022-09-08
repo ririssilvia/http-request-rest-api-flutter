@@ -43,13 +43,18 @@ class _MovieListState extends State<MovieList> {
               color: Colors.white,
               elevation: 2.0,
               child: ListTile(
+                leading: Image.network(imgPath + movies[position].posterPath),
                 title: Text(
                   movies[position].title,
                   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text(
-                  'Rating = ' + movies[position].voteAverage.toString(),
-                ),
+               subtitle: Row(children: [
+                    const Icon(
+                      Icons.star,
+                      color: Colors.yellow,
+                    ),
+                    Text(movies[position].voteAverage.toString())
+                  ]),
                 onTap: () {
                 MaterialPageRoute route = MaterialPageRoute(
                   builder: (_) => MovieDetail(movies[position]),
