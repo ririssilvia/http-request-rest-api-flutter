@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http_request/pages/movie_detail.dart';
 import 'package:http_request/service/http_service.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -49,6 +50,12 @@ class _MovieListState extends State<MovieList> {
                 subtitle: Text(
                   'Rating = ' + movies[position].voteAverage.toString(),
                 ),
+                onTap: () {
+                MaterialPageRoute route = MaterialPageRoute(
+                  builder: (_) => MovieDetail(movies[position]),
+                );
+                Navigator.push(context, route);
+              },
               ),
             );
           }),
