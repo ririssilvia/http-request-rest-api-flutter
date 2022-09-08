@@ -10,6 +10,7 @@ class MovieDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String path;
+    String releaseDate;
     if (movie.posterPath != null) {
       path = imgPath + movie.posterPath; //didapat dari models movie
     } else {
@@ -17,23 +18,100 @@ class MovieDetail extends StatelessWidget {
     }
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Color(0xfff4f4f4),
       appBar: AppBar(
-        title: Text(movie.title),
+        title: Text(
+          'Movie Details',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 20,
+        ),
         child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(10),
-              height: height / 1.5,
-              child: Image.network(path),
+          children: <Widget>[
+            Center(
+              child: Card(
+                elevation: 5,
+                child: Container(
+                  height: 450,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        path,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              (movie.title),
+              style: TextStyle(
+                fontSize: 23,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 2.5,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: <Widget>[
+                Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 20,
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          Icons.star_border,
+                          size: 45,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          movie.voteAverage.toString(),
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
             ),
             Container(
               child: Text(
-                movie.overview,
-                style: TextStyle(fontSize: 18),
+                'Overview',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              padding: EdgeInsets.only(left: 16, right: 16),
+              padding: EdgeInsets.all(16),
+            ),
+            Text(
+              movie.overview,
+              style: TextStyle(
+                fontSize: 18,
+                height: 1.5,
+              ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
