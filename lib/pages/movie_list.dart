@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http_request/service/http_service.dart';
-
+import 'package:carousel_slider/carousel_slider.dart';
 
 class MovieList extends StatefulWidget {
   @override
@@ -8,29 +8,50 @@ class MovieList extends StatefulWidget {
 }
 
 class _MovieListState extends State<MovieList> {
-  String result = "";
+  int? moviesCount;
+  late List movies;
   late HttpService service;
+  final String imgPath = 'https://image.tmdb.org/t/p/w500/';
+
+  Future initialize() async {
+    movies = [];
+    movies = (await service.getPopularMovies()) as List;
+    setState(() {
+      moviesCount = movies.length;
+      movies = movies;
+    });
+  }
 
   @override
   void initState() {
     service = HttpService();
+    initialize();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    service.getPopularMovies().then((value) => {
-          setState(() {
-            result = value! as String;
-          })
-        });
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Popular Movies"),
+        title: Text("Popular Movies"),
       ),
-      body: Container(
-        child: Text(result),
-      ),
+      body: ListView.builder(
+          itemCount: (this.moviesCount == null) ? 0 : this.moviesCount,
+          itemBuilder: (context, int position) {
+            return Card(
+              color: Colors.white,
+              elevation: 2.0,
+              child: ListTile(
+                title: Text(
+                  movies[position].title,
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  'Rating = ' + movies[position].voteAverage.toString(),
+                ),
+              ),
+            );
+          }),
     );
   }
 }
